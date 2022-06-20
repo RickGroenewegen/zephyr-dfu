@@ -15,4 +15,12 @@ public class RickTestPlugin: CAPPlugin {
             "value": implementation.echo(value)
         ])
     }
+
+    @objc func updateFirmware(_ call: CAPPluginCall) {
+        call.resolve([
+            "value": implementation.updateFirmware(call)
+        ])
+    }
 }
+
+
