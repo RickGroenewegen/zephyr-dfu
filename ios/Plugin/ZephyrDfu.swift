@@ -3,7 +3,7 @@ import Capacitor
 import iOSMcuManagerLibrary
 import CoreBluetooth
 
-@objc public class RickTest: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate, FirmwareUpgradeDelegate {
+@objc public class ZephyrDfu: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate, FirmwareUpgradeDelegate {
     
     let serviceID = "AFB2040C-9519-4453-9079-BED75069BA91"
     private var dfuManagerConfiguration = FirmwareUpgradeConfiguration(

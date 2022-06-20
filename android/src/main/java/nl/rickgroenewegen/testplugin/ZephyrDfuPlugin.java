@@ -6,10 +6,10 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 
-@CapacitorPlugin(name = "RickTest")
-public class RickTestPlugin extends Plugin {
+@CapacitorPlugin(name = "ZephyrDfu")
+public class ZephyrDfuPlugin extends Plugin {
 
-    private RickTest implementation = new RickTest();
+    private ZephyrDfu implementation = new ZephyrDfu();
 
     @PluginMethod
     public void echo(PluginCall call) {

@@ -1,8 +1,8 @@
 import { WebPlugin } from '@capacitor/core';
 
-import type { RickTestPlugin } from './definitions';
+import type { ZephyrDfuPlugin } from './definitions';
 
-export class RickTestWeb extends WebPlugin implements RickTestPlugin {
+export class ZephyrDfuWeb extends WebPlugin implements ZephyrDfuPlugin {
 	async echo(options: { value: string }): Promise<{ value: string }> {
 		console.log('ECHO', options);
 		return options;

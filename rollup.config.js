@@ -4,7 +4,7 @@ export default {
 		{
 			file: 'dist/plugin.js',
 			format: 'iife',
-			name: 'capacitorRickTest',
+			name: 'capacitorZephyrDfu',
 			globals: {
 				'@capacitor/core': 'capacitorExports',
 			},

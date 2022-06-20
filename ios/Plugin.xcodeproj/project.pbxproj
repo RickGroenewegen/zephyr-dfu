@@ -13,13 +13,13 @@
 		1D0AFF94285F2D0100E1C09F /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 1D0AFF93285F2D0100E1C09F /* ZIPFoundation */; };
 		1D0AFF97285F2D1900E1C09F /* SwiftUTI in Frameworks */ = {isa = PBXBuildFile; productRef = 1D0AFF96285F2D1900E1C09F /* SwiftUTI */; };
 		20C0B05DCFC8E3958A738AF2 /* Pods_PluginTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6753A823D3815DB436415E3 /* Pods_PluginTests.framework */; };
-		2F98D68224C9AAE500613A4C /* RickTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F98D68124C9AAE400613A4C /* RickTest.swift */; };
+		2F98D68224C9AAE500613A4C /* ZephyrDfu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F98D68124C9AAE400613A4C /* ZephyrDfu.swift */; };
 		50ADFF92201F53D600D50D53 /* Plugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50ADFF88201F53D600D50D53 /* Plugin.framework */; };
-		50ADFF97201F53D600D50D53 /* RickTestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFF96201F53D600D50D53 /* RickTestTests.swift */; };
-		50ADFF99201F53D600D50D53 /* RickTestPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ADFF8B201F53D600D50D53 /* RickTestPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		50ADFF97201F53D600D50D53 /* ZephyrDfuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFF96201F53D600D50D53 /* ZephyrDfuTests.swift */; };
+		50ADFF99201F53D600D50D53 /* ZephyrDfuPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ADFF8B201F53D600D50D53 /* ZephyrDfuPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50ADFFA42020D75100D50D53 /* Capacitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50ADFFA52020D75100D50D53 /* Capacitor.framework */; };
-		50ADFFA82020EE4F00D50D53 /* RickTestPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFFA72020EE4F00D50D53 /* RickTestPlugin.m */; };
-		50E1A94820377CB70090CE1A /* RickTestPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1A94720377CB70090CE1A /* RickTestPlugin.swift */; };
+		50ADFFA82020EE4F00D50D53 /* ZephyrDfuPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFFA72020EE4F00D50D53 /* ZephyrDfuPlugin.m */; };
+		50E1A94820377CB70090CE1A /* ZephyrDfuPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1A94720377CB70090CE1A /* ZephyrDfuPlugin.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,17 +33,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2F98D68124C9AAE400613A4C /* RickTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RickTest.swift; sourceTree = "<group>"; };
+		2F98D68124C9AAE400613A4C /* ZephyrDfu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZephyrDfu.swift; sourceTree = "<group>"; };
 		3B2A61DA5A1F2DD4F959604D /* Pods_Plugin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Plugin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50ADFF88201F53D600D50D53 /* Plugin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Plugin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		50ADFF8B201F53D600D50D53 /* RickTestPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RickTestPlugin.h; sourceTree = "<group>"; };
+		50ADFF8B201F53D600D50D53 /* ZephyrDfuPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZephyrDfuPlugin.h; sourceTree = "<group>"; };
 		50ADFF8C201F53D600D50D53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50ADFF91201F53D600D50D53 /* PluginTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PluginTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		50ADFF96201F53D600D50D53 /* RickTestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RickTestTests.swift; sourceTree = "<group>"; };
+		50ADFF96201F53D600D50D53 /* ZephyrDfuTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZephyrDfuTests.swift; sourceTree = "<group>"; };
 		50ADFF98201F53D600D50D53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50ADFFA52020D75100D50D53 /* Capacitor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Capacitor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		50ADFFA72020EE4F00D50D53 /* RickTestPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RickTestPlugin.m; sourceTree = "<group>"; };
-		50E1A94720377CB70090CE1A /* RickTestPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RickTestPlugin.swift; sourceTree = "<group>"; };
+		50ADFFA72020EE4F00D50D53 /* ZephyrDfuPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZephyrDfuPlugin.m; sourceTree = "<group>"; };
+		50E1A94720377CB70090CE1A /* ZephyrDfuPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZephyrDfuPlugin.swift; sourceTree = "<group>"; };
 		5E23F77F099397094342571A /* Pods-Plugin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.debug.xcconfig"; sourceTree = "<group>"; };
 		91781294A431A2A7CC6EB714 /* Pods-Plugin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.release.xcconfig"; sourceTree = "<group>"; };
 		96ED1B6440D6672E406C8D19 /* Pods-PluginTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -100,10 +100,10 @@
 		50ADFF8A201F53D600D50D53 /* Plugin */ = {
 			isa = PBXGroup;
 			children = (
-				50E1A94720377CB70090CE1A /* RickTestPlugin.swift */,
-				2F98D68124C9AAE400613A4C /* RickTest.swift */,
-				50ADFF8B201F53D600D50D53 /* RickTestPlugin.h */,
-				50ADFFA72020EE4F00D50D53 /* RickTestPlugin.m */,
+				50E1A94720377CB70090CE1A /* ZephyrDfuPlugin.swift */,
+				2F98D68124C9AAE400613A4C /* ZephyrDfu.swift */,
+				50ADFF8B201F53D600D50D53 /* ZephyrDfuPlugin.h */,
+				50ADFFA72020EE4F00D50D53 /* ZephyrDfuPlugin.m */,
 				50ADFF8C201F53D600D50D53 /* Info.plist */,
 			);
 			path = Plugin;
@@ -112,7 +112,7 @@
 		50ADFF95201F53D600D50D53 /* PluginTests */ = {
 			isa = PBXGroup;
 			children = (
-				50ADFF96201F53D600D50D53 /* RickTestTests.swift */,
+				50ADFF96201F53D600D50D53 /* ZephyrDfuTests.swift */,
 				50ADFF98201F53D600D50D53 /* Info.plist */,
 			);
 			path = PluginTests;
@@ -146,7 +146,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50ADFF99201F53D600D50D53 /* RickTestPlugin.h in Headers */,
+				50ADFF99201F53D600D50D53 /* ZephyrDfuPlugin.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,9 +332,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50E1A94820377CB70090CE1A /* RickTestPlugin.swift in Sources */,
-				2F98D68224C9AAE500613A4C /* RickTest.swift in Sources */,
-				50ADFFA82020EE4F00D50D53 /* RickTestPlugin.m in Sources */,
+				50E1A94820377CB70090CE1A /* ZephyrDfuPlugin.swift in Sources */,
+				2F98D68224C9AAE500613A4C /* ZephyrDfu.swift in Sources */,
+				50ADFFA82020EE4F00D50D53 /* ZephyrDfuPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,7 +342,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50ADFF97201F53D600D50D53 /* RickTestTests.swift in Sources */,
+				50ADFF97201F53D600D50D53 /* ZephyrDfuTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

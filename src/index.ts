@@ -1,10 +1,10 @@
 import { registerPlugin } from '@capacitor/core';
 
-import type { RickTestPlugin } from './definitions';
+import type { ZephyrDfuPlugin } from './definitions';
 
-const RickTest = registerPlugin<RickTestPlugin>('RickTest', {
-	web: () => import('./web').then(m => new m.RickTestWeb()),
+const ZephyrDfu = registerPlugin<ZephyrDfuPlugin>('ZephyrDfu', {
+	web: () => import('./web').then(m => new m.ZephyrDfuWeb()),
 });
 
 export * from './definitions';
-export { RickTest };
+export { ZephyrDfu };

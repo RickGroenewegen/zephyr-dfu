@@ -1,5 +1,5 @@
 {
-  "name": "rick-test",
+  "name": "zephyr-dfu",
   "version": "0.0.1",
   "description": "Nee",
   "main": "dist/plugin.cjs.js",
@@ -11,7 +11,7 @@
     "android/build.gradle",
     "dist/",
     "ios/Plugin/",
-    "RickTest.podspec"
+    "ZephyrDfu.podspec"
   ],
   "author": "Rick",
   "license": "MIT",
@@ -37,7 +37,7 @@
     "eslint": "eslint . --ext ts",
     "prettier": "prettier \"**/*.{css,html,ts,js,java}\"",
     "swiftlint": "node-swiftlint",
-    "docgen": "docgen --api RickTestPlugin --output-readme README.md --output-json dist/docs.json",
+    "docgen": "docgen --api ZephyrDfuPlugin --output-readme README.md --output-json dist/docs.json",
     "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.js",
     "clean": "rimraf ./dist",
     "watch": "tsc --watch",

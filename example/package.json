@@ -14,7 +14,7 @@
     "@capacitor/core": "latest",
     "@capacitor/camera": "latest",
     "@capacitor/splash-screen": "latest",
-    "rick-test": "file:.."
+    "zephyr-dfu": "file:.."
   },
   "devDependencies": {
     "@capacitor/cli": "latest"

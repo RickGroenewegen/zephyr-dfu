@@ -5,9 +5,9 @@ import Capacitor
  * Please read the Capacitor iOS Plugin Development Guide
  * here: https://capacitorjs.com/docs/plugins/ios
  */
-@objc(RickTestPlugin)
-public class RickTestPlugin: CAPPlugin {
-    private let implementation = RickTest()
+@objc(ZephyrDfuPlugin)
+public class ZephyrDfuPlugin: CAPPlugin {
+    private let implementation = ZephyrDfu()
 
     @objc func echo(_ call: CAPPluginCall) {
         let value = call.getString("value") ?? ""

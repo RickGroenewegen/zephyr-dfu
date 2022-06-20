@@ -1,11 +1,11 @@
-# rick-test
+# zephyr-dfu
 
 Nee
 
 ## Install
 
 ```bash
-npm install rick-test
+npm install zephyr-dfu
 npx cap sync
 ```
 
