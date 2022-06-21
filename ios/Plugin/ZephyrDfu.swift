@@ -3,11 +3,11 @@ import Capacitor
 import iOSMcuManagerLibrary
 import CoreBluetooth
 
-@objc public class ZephyrDfu: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate, FirmwareUpgradeDelegate {
+@objc public class ZephyrDfu: UIViewController, CBPeripheralDelegate, CBCentralManagerDelegate, FirmwareUpgradeDelegate {
     
     let serviceID = "AFB2040C-9519-4453-9079-BED75069BA91"
     private var dfuManagerConfiguration = FirmwareUpgradeConfiguration(
-        eraseAppSettings: false, pipelineDepth: 1, byteAlignment: .disabled)
+        eraseAppSettings: false, pipelineDepth: 4, byteAlignment: .fourByte)
     
     var remotePeripheral: [CBPeripheral] = []
     
@@ -21,7 +21,7 @@ import CoreBluetooth
     }
     
     public func upgradeStateDidChange(from previousState: FirmwareUpgradeState, to newState: FirmwareUpgradeState) {
-        print("upgradeStateDidChange from")
+        print("upgradeStateDidChange")
         print(previousState);
         print(newState);
         
@@ -49,11 +49,11 @@ import CoreBluetooth
         //self.connectedPeripheral = peripheral
         print("CONNECTED TO DEVICE!!!")
         let bleTransport = McuMgrBleTransport(peripheral)
-
+        
         // Initialize the FirmwareUpgradeManager using the transport and a delegate
         let dfuManager = FirmwareUpgradeManager(transporter: bleTransport,delegate: self)
 
-        dfuManager.mode = FirmwareUpgradeMode.testOnly
+        dfuManager.mode = FirmwareUpgradeMode.testAndConfirm
 
         do {
 
@@ -85,6 +85,9 @@ import CoreBluetooth
             print("Peripheral BEFORE START: \(peripheral)")
 
             try dfuManager.start(images: package.images, using: dfuManagerConfiguration)
+            
+            print("DONE WITH UPDATE")
+            
         } catch {
             print("Error creating package: \(error)")
         }
