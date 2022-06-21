@@ -20,11 +20,22 @@ public class ZephyrDfuPlugin extends Plugin {
         call.resolve(ret);
     }
 
+    @PluginMethod
     public void updateFirmware(PluginCall call) {
         String fileURL = call.getString("fileURL");
         String deviceIdentifier = call.getString("deviceIdentifier");
+
+       	System.out.println("ZEPHYR TEST");
+
+       	String result =  implementation.updateFirmware(fileURL,deviceIdentifier,this.getActivity().getApplicationContext());
+
+		JSObject ret = new JSObject();
+		ret.put("value", result);
+
+		System.out.println("ZEPHYR TEST DONE");
+
         // More logic
-        call.resolve();
+        call.resolve(ret);
     }
 
 }

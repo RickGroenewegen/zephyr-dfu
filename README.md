@@ -39,13 +39,12 @@ echo(options: { value: string; }) => Promise<{ value: string; }>
 ### updateFirmware(...)
 
 ```typescript
-updateFirmware(fileURL: string, deviceIdentifier: string) => Promise<{ value: string; }>
+updateFirmware(options: { fileURL: string; deviceIdentifier: string; }) => Promise<{ value: string; }>
 ```
 
-| Param                  | Type                |
-| ---------------------- | ------------------- |
-| **`fileURL`**          | <code>string</code> |
-| **`deviceIdentifier`** | <code>string</code> |
+| Param         | Type                                                        |
+| ------------- | ----------------------------------------------------------- |
+| **`options`** | <code>{ fileURL: string; deviceIdentifier: string; }</code> |
 
 **Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
 

@@ -7,9 +7,9 @@ export class ZephyrDfuWeb extends WebPlugin implements ZephyrDfuPlugin {
 		console.log('ECHO', options);
 		return options;
 	}
-	async updateFirmware(fileURL:string, deviceIdentifier: string): Promise<{ value: string }> {
+	async updateFirmware(options: {fileURL:string, deviceIdentifier: string}): Promise<{ value: string }> {
 		/// logic here
-		console.log(fileURL,deviceIdentifier);
+		console.log(options.fileURL,options.deviceIdentifier);
 		return { value : 'Ik ben web' };
 	}
 }

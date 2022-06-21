@@ -53,7 +53,7 @@ import CoreBluetooth
         // Initialize the FirmwareUpgradeManager using the transport and a delegate
         let dfuManager = FirmwareUpgradeManager(transporter: bleTransport,delegate: self)
 
-        dfuManager.mode = FirmwareUpgradeMode.testAndConfirm
+        dfuManager.mode = FirmwareUpgradeMode.testOnly
 
         print("DONE!")
 
