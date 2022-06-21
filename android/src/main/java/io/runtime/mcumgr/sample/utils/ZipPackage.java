@@ -20,7 +20,6 @@ import java.util.zip.ZipInputStream;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
-import timber.log.Timber;
 
 public final class ZipPackage {
 	private static final String MANIFEST = "manifest.json";
@@ -64,7 +63,7 @@ public final class ZipPackage {
 				final byte[] content = getData(zis);
 				entries.put(name, content);
 			} else {
-				Timber.w("Unsupported file found: %s", name);
+				System.out.println("Unsupported file found: " + name);
 			}
 		}
 

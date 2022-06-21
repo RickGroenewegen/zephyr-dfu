@@ -26,29 +26,20 @@ struct McuMgrManifest: Codable {
     
     init(from url: URL) throws {
         
-        print("McuMgrPackage - Step 6b")
-        
         guard let data = try? Data(contentsOf: url),
               let stringData = String(data: data, encoding: .utf8) else {
                   throw Error.unableToImport
         }
         
-        print("McuMgrPackage - Step 6c")
-        
         let stringWithoutSpaces = String(stringData.filter { !" \n\t\r".contains($0) })
         let modString = Self.LoadAddressRegEx.stringByReplacingMatches(in: stringWithoutSpaces, options: [], range: NSRange(stringWithoutSpaces.startIndex..<stringWithoutSpaces.endIndex, in: stringWithoutSpaces), withTemplate: " ")
-        
-        print("McuMgrPackage - Step 6d")
         
         guard let cleanData = modString.data(using: .utf8) else {
             throw Error.unableToParseJSON
         }
         
-        print("McuMgrPackage - Step 6e")
-        
         self = try JSONDecoder().decode(McuMgrManifest.self, from: cleanData)
         
-        print("McuMgrPackage - Step 6f")
     }
 }
 

@@ -7,7 +7,7 @@ import CoreBluetooth
     
     let serviceID = "AFB2040C-9519-4453-9079-BED75069BA91"
     private var dfuManagerConfiguration = FirmwareUpgradeConfiguration(
-        eraseAppSettings: false, pipelineDepth: 1, byteAlignment: .fourByte)
+        eraseAppSettings: false, pipelineDepth: 1, byteAlignment: .disabled)
     
     var remotePeripheral: [CBPeripheral] = []
     
@@ -21,7 +21,7 @@ import CoreBluetooth
     }
     
     public func upgradeStateDidChange(from previousState: FirmwareUpgradeState, to newState: FirmwareUpgradeState) {
-        print("upgradeStateDidChange")
+        print("upgradeStateDidChange from")
         print(previousState);
         print(newState);
         
@@ -40,7 +40,7 @@ import CoreBluetooth
     }
     
     public func uploadProgressDidChange(bytesSent: Int, imageSize: Int, timestamp: Date) {
-        print("uploadProgressDidChange: " + String(bytesSent) + " / " + String(imageSize) + DateFormatter().string(from: timestamp) )
+        print("uploadProgressDidChange: " + String(bytesSent) + " / " + String(imageSize))
     }
         
     // In CBCentralManagerDelegate class/extension
@@ -55,16 +55,31 @@ import CoreBluetooth
 
         dfuManager.mode = FirmwareUpgradeMode.testOnly
 
-        print("DONE!")
-
         do {
 
             print("Using file URL: " + fileURL);
 
 
-            let package = try McuMgrPackage(from: URL(string: fileURL)!)
-
-            print("Starting update");
+            print("Try to unzip BIN. Source: " + fileURL);
+            
+            let url = NSURL(fileURLWithPath: fileURL);
+            let destinationURL = url.deletingLastPathComponent!
+            
+            print("Try to unzip BIN. Destination: " + destinationURL.absoluteString);
+            
+            do {
+                let fileManager = FileManager()
+                let sourceURL = URL(fileURLWithPath: fileURL)
+                try fileManager.unzipItem(at: sourceURL, to: destinationURL)
+            } catch {
+                print("Extraction of ZIP archive failed with error:\(error)")
+            }
+            
+            let binPath = destinationURL.absoluteString + "app_update.bin";
+            
+            print("Starting update: " + binPath);
+            
+            let package = try McuMgrPackage(from: URL(string: (binPath))!)
 
 
             print("Peripheral BEFORE START: \(peripheral)")
@@ -105,7 +120,6 @@ import CoreBluetooth
     }
     
     func startScanning() -> Void {
-        
         print("Starting to scan ...")
         manager.scanForPeripherals(withServices: [])
     }
@@ -119,50 +133,13 @@ import CoreBluetooth
     
     func doUpdateOnPeripheral(_ peripheral: CBPeripheral) {
         print("Peripheral FOUND: \(peripheral)")
-        // Initialize the BLE transporter using a scanned peripheral
-        
-        //peripheral.delegate = self
-        
         self.remotePeripheral.append(peripheral)
-        
         manager?.connect(peripheral, options: nil)
-        
-//        let bleTransport = McuMgrBleTransport(peripheral)
-//
-//        // Initialize the FirmwareUpgradeManager using the transport and a delegate
-//        let dfuManager = FirmwareUpgradeManager(transporter: bleTransport,delegate: self)
-//
-//        dfuManager.mode = FirmwareUpgradeMode.testAndConfirm
-//
-//        print("DONE!")
-//
-//        do {
-//
-//            print("Using file URL: " + fileURL);
-//
-//
-//            let package = try McuMgrPackage(from: URL(string: fileURL)!)
-//
-//            print("Starting update");
-//
-//
-//            print("Peripheral BEFORE START: \(peripheral)")
-//
-//            try dfuManager.start(images: package.images, using: dfuManagerConfiguration)
-//        } catch {
-//            print("Error creating package: \(error)")
-//        }
-     
-        
     }
     
     public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral,advertisementData: [String : Any], rssi RSSI: NSNumber) {
-
         print(peripheral)
-        
         if(peripheral.identifier.uuidString == deviceID) {
-            
-            
             manager.stopScan()
             doUpdateOnPeripheral(peripheral);
             

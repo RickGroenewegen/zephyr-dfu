@@ -20,14 +20,10 @@ struct McuMgrPackage {
     
     init(from url: URL) throws {
         
-        print("McuMgrPackage - Step 1")
-        
         let document = UIDocument(fileURL: url)
         guard let fileType = document.fileType else {
             throw McuMgrPackage.Error.notAValidDocument
         }
-        
-        print("McuMgrPackage - Step 2 - " + fileType)
         
         switch UTI.from(fileType) {
         case .bin:
@@ -90,13 +86,10 @@ fileprivate extension McuMgrPackage {
     }
     
     static func extractImageFromZipFile(from url: URL) throws -> [ImageManager.Image] {
-        print("McuMgrPackage - Step 3")
         guard let cacheDirectoryPath = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first else {
             throw McuMgrPackage.Error.unableToAccessCacheDirectory
         }
         let cacheDirectoryURL = URL(fileURLWithPath: cacheDirectoryPath, isDirectory: true)
-        
-        print("McuMgrPackage - Step 4")
         
         let fileManager = FileManager()
         let contentURLs = try fileManager.contentsOfDirectory(at: cacheDirectoryURL, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
@@ -104,22 +97,14 @@ fileprivate extension McuMgrPackage {
             _ = try? fileManager.removeItem(at: url)
         }
         
-        print("McuMgrPackage - Step 5")
-        
         try fileManager.unzipItem(at: url, to: cacheDirectoryURL)
         let unzippedURLs = try fileManager.contentsOfDirectory(at: cacheDirectoryURL, includingPropertiesForKeys: nil, options: [])
-        
-        print("McuMgrPackage - Step 6")
         
         guard let dfuManifestURL = unzippedURLs.first(where: { $0.pathExtension == "json" }) else {
             throw McuMgrPackage.Error.manifestFileNotFound
         }
         
-        print("McuMgrPackage - Step 6a")
-        
         let manifest = try McuMgrManifest(from: dfuManifestURL)
-        
-        print("McuMgrPackage - Step 7")
         
         let images = try manifest.files.compactMap { manifestFile -> ImageManager.Image in
             guard let imageURL = unzippedURLs.first(where: { $0.absoluteString.contains(manifestFile.file) }) else {
@@ -129,13 +114,9 @@ fileprivate extension McuMgrPackage {
             return (manifestFile.imageIndex, imageData)
         }
         
-        print("McuMgrPackage - Step 8")
-        
         try unzippedURLs.forEach { url in
             try fileManager.removeItem(at: url)
         }
-        
-        print("McuMgrPackage - Step 9")
         
         return images
     }
