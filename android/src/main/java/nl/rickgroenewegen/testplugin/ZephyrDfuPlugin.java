@@ -1,6 +1,7 @@
 package nl.rickgroenewegen.testplugin;
 
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -29,11 +30,8 @@ public class ZephyrDfuPlugin extends Plugin {
     public void updateFirmware(PluginCall call) {
         String fileURL = call.getString("fileURL");
         String deviceIdentifier = call.getString("deviceIdentifier");
-
         call.setKeepAlive(true);
-
-       	System.out.println("BLE// ZEPHYR TEST");
-
+       	Log.i("BLE//","Starting firmware update");
        	implementation.updateFirmware(fileURL,deviceIdentifier,this.getActivity().getApplicationContext(),new FirmwareUpdateCallback() {
 			@Override
 			public void success(String msg, JSObject data) {

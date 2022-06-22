@@ -51,7 +51,7 @@ public class ZephyrDfu extends Plugin implements FirmwareUpgradeCallback {
 
 	@Override
 	public void onUpgradeStarted(final FirmwareUpgradeController controller) {
-		System.out.println("BLE// onUpgradeStarted");
+		Log.i("ZEPHYR-DFU","onUpgradeStarted");
 		myCallback.success("upgradeStarted",null);
 	}
 
@@ -60,31 +60,33 @@ public class ZephyrDfu extends Plugin implements FirmwareUpgradeCallback {
 		final FirmwareUpgradeManager.State prevState,
 		final FirmwareUpgradeManager.State newState)
 	{
-		System.out.println("BLE// onStateChanged. Old = " + prevState + " / New = " + newState);
-		myCallback.success("stateChanged",new JSObject().put("prevState", prevState).put("newState", newState));
+		// States: validate, upload, test, reset, confirm
+		Log.i("ZEPHYR-DFU","onStateChanged. Old = " + prevState + " / New = " + newState);
+		String convertedNewState = newState.toString().toLowerCase();
+		myCallback.success("stateChanged",new JSObject().put("prevState", prevState).put("newState", convertedNewState));
 	}
 
 	@Override
 	public void onUpgradeCompleted() {
-		System.out.println("BLE// onUpgradeCompleted");
+		Log.i("ZEPHYR-DFU","onUpgradeCompleted");
 		myCallback.success("upgradeCompleted",null);
 	}
 
 	@Override
 	public void onUpgradeCanceled(final FirmwareUpgradeManager.State state) {
-		System.out.println("BLE// onUpgradeCanceled");
+		Log.i("ZEPHYR-DFU","onUpgradeCanceled");
 		myCallback.success("upgradeCanceled",null);
 	}
 
 	@Override
 	public void onUpgradeFailed(final FirmwareUpgradeManager.State state, final McuMgrException error) {
-		System.out.println("BLE// onUpgradeFailed" + error.toString());
+		Log.i("ZEPHYR-DFU","onUpgradeFailed");
 		myCallback.success("upgradeFailed",null);
 	}
 
 	@Override
 	public void onUploadProgressChanged(final int bytesSent, final int imageSize, final long timestamp) {
-		System.out.println("BLE// onUploadProgressChanged: " + bytesSent + " / " + imageSize);
+		Log.i("ZEPHYR-DFU","onUploadProgressChanged: " + bytesSent + " / " + imageSize);
 		myCallback.success("uploadProgressChanged", new JSObject().put("bytesSent", bytesSent).put("imageSize", imageSize));
 	}
 
@@ -96,21 +98,18 @@ public class ZephyrDfu extends Plugin implements FirmwareUpgradeCallback {
 			try {
 				if(result.getDevice().getAddress().equals(myDeviceIdentifier)) {
 					myCallback.success("deviceFound",null);
-					System.out.println("BLE// result" + result.toString());
-					System.out.println("BLE// Device Name: " + result.getDevice().getName());
-					System.out.println("BLE// Device address: " + result.getDevice().getAddress());
+					Log.i("ZEPHYR-DFU","Device Name: " + result.getDevice().getName() + "(" + result.getDevice().getAddress() + ")");
 					device = result.getDevice();
 					mLEScanner.stopScan(mScanCallback);
 					doUpdateFirmware(device);
 				}
 			} catch(Exception e) {
-				System.out.println("BLE// callbackTypeError");
+				Log.i("ZEPHYR-DFU","callbackTypeError");
 			}
 		}
 
 		@Override
 		public void onScanFailed(int errorCode) {
-			System.out.println("BLE// onScanFailed");
 			Log.e("Scan Failed", "Error Code: " + errorCode);
 		}
 	};
@@ -124,15 +123,13 @@ public class ZephyrDfu extends Plugin implements FirmwareUpgradeCallback {
 			dis.readFully(fileData);
 			dis.close();
 		} catch(IOException e) {
-			System.out.println("BLE// File read ERROR");
-			Log.e("MYAPP", "BLE// Exception", e);
+			Log.e("MYAPP", "ZEPHYR-DFU File read Exception", e);
 		}
 		return fileData;
 	}
 
 	void doUpdateFirmware(BluetoothDevice device) throws IOException {
-		System.out.println("BLE// Do update: " + device.getAddress());
-
+		Log.i("ZEPHYR-DFU","Do update: " + device.getAddress());
 		McuMgrTransport transport = new McuMgrBleTransport(myContext, device);
 
 		// Initialize the Firmware Upgrade Manager.
@@ -151,7 +148,7 @@ public class ZephyrDfu extends Plugin implements FirmwareUpgradeCallback {
 			e.printStackTrace();
 		}
 
-		System.out.println("BLE// Update done: " + device.getAddress());
+		Log.i("ZEPHYR-DFU","Update done: " + device.getAddress());
 	}
 
 	@RequiresApi(api = Build.VERSION_CODES.M)
@@ -165,12 +162,12 @@ public class ZephyrDfu extends Plugin implements FirmwareUpgradeCallback {
 			@Override
 			public void run() {
 				mLEScanner.stopScan(mScanCallback);
-				System.out.println("BLE// mLEScanner.stopScan(mScanCallback)");
+				Log.i("ZEPHYR-DFU","mLEScanner.stopScan(mScanCallback)");
 			}
 		}, SCAN_PERIOD);
 
 		mLEScanner.startScan(mScanCallback);
-		System.out.println("BLE// mLEScanner.startScan(mScanCallback) ");
+		Log.i("ZEPHYR-DFU","mLEScanner.startScan(mScanCallback)");
 
 	}
 
