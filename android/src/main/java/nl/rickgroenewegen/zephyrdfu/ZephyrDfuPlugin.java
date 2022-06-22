@@ -16,15 +16,6 @@ public class ZephyrDfuPlugin extends Plugin {
 
     private ZephyrDfu implementation = new ZephyrDfu();
 
-    @PluginMethod
-    public void echo(PluginCall call) {
-        String value = call.getString("value");
-
-        JSObject ret = new JSObject();
-        ret.put("value", implementation.echo(value));
-        call.resolve(ret);
-    }
-
 	@RequiresApi(api = Build.VERSION_CODES.M)
 	@PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
     public void updateFirmware(PluginCall call) {

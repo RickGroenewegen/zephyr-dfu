@@ -16,15 +16,9 @@ import io.runtime.mcumgr.sample.utils.ZipPackage;
 import android.content.Context;
 import android.bluetooth.*;
 import android.util.Pair;
-
 import androidx.annotation.RequiresApi;
-
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
-import com.getcapacitor.PluginCall;
-
-import org.json.JSONException;
-
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,11 +37,6 @@ public class ZephyrDfu extends Plugin implements FirmwareUpgradeCallback {
 	private FirmwareUpdateCallback myCallback = null;
 
 	private static final long SCAN_PERIOD = 5000;
-
-	public String echo(String value) {
-		Log.i("Echo", value);
-		return value;
-	}
 
 	@Override
 	public void onUpgradeStarted(final FirmwareUpgradeController controller) {
