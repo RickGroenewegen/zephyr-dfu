@@ -30,14 +30,17 @@ import CoreBluetooth
     
     public func upgradeDidComplete() {
         print("ZEPHYR-DFU - upgradeDidComplete")
+        myCallback.resolve(["status": "upgradeCompleted"])
     }
     
     public func upgradeDidFail(inState state: FirmwareUpgradeState, with error: Error) {
         print("ZEPHYR-DFU - upgradeDidFail")
+        myCallback.resolve(["status": "upgradeFailed"])
     }
     
     public func upgradeDidCancel(state: FirmwareUpgradeState) {
         print("ZEPHYR-DFU - upgradeDidCancel")
+        myCallback.resolve(["status": "upgradeCanceled"])
     }
     
     public func uploadProgressDidChange(bytesSent: Int, imageSize: Int, timestamp: Date) {
