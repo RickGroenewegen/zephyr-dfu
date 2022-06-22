@@ -1,4 +1,4 @@
-package nl.rickgroenewegen.testplugin;
+package nl.rickgroenewegen.zephyrdfu;
 
 import android.os.Build;
 import android.util.Log;

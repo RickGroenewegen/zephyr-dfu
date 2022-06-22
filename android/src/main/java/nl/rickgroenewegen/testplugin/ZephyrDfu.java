@@ -1,4 +1,4 @@
-package nl.rickgroenewegen.testplugin;
+package nl.rickgroenewegen.zephyrdfu;
 
 import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
