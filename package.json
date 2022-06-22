@@ -17,7 +17,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+http://blank.git"
+    "url": "git+https://github.com/RickGroenewegen/zephyr-dfu.git"
   },
   "keywords": [
     "capacitor",
