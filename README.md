@@ -1,6 +1,11 @@
 # zephyr-dfu
 
-Nee
+This Capacitor plugin provides an implementation of the McuManager protocol supported by Zephyr. 
+
+It is based on the following libraries:
+
+Android: https://github.com/NordicSemiconductor/Android-nRF-Connect-Device-Manager/
+iOS: https://github.com/NordicSemiconductor/IOS-nRF-Connect-Device-Manager
 
 ## Install
 

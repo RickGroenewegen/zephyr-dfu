@@ -1,7 +1,7 @@
 {
   "name": "zephyr-dfu",
   "version": "0.0.1",
-  "description": "Nee",
+  "description": "The Capacitor plugin provides an implementation of the McuManager protocol supported by Zephyr.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -13,19 +13,25 @@
     "ios/Plugin/",
     "ZephyrDfu.podspec"
   ],
-  "author": "Rick",
+  "author": "Rick Groenewegen",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+http://blank.git"
   },
-  "bugs": {
-    "url": "http://blank/issues"
-  },
   "keywords": [
     "capacitor",
     "plugin",
-    "native"
+    "native",
+    "bluetooth",
+    "zephyr",
+    "dfu",
+    "firmware",
+    "update",
+    "ios",
+    "android",
+    "mcu",
+    "McuManager"
   ],
   "scripts": {
     "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",
