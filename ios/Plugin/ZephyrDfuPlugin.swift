@@ -17,9 +17,14 @@ public class ZephyrDfuPlugin: CAPPlugin {
     }
 
     @objc func updateFirmware(_ call: CAPPluginCall) {
-        call.resolve([
-            "value": implementation.updateFirmware(call)
-        ])
+        call.keepAlive = true
+        
+        implementation.updateFirmware(call)
+        
+       
+//        call.resolve([
+//            "state": implementation.updateFirmware(call)
+//        ])
     }
 }
 

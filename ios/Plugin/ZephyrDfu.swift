@@ -15,16 +15,16 @@ import CoreBluetooth
     var deviceID = "";
     var fileURL = "";
     var URLData:Data!
+    var myCallback: CAPPluginCall!;
     
     public func upgradeDidStart(controller: FirmwareUpgradeController) {
-        print("upgradeDidStart")
+        print("upgradeStarted")
+        myCallback.resolve(["status": "upgradeStarted"])
     }
     
     public func upgradeStateDidChange(from previousState: FirmwareUpgradeState, to newState: FirmwareUpgradeState) {
-        print("upgradeStateDidChange")
-        print(previousState);
-        print(newState);
-        
+        print("stateChanged")
+        myCallback.resolve(["status": "stateChanged", "data" : ["prevState" : "\(previousState)", "newState" : "\(newState)" ]])
     }
     
     public func upgradeDidComplete() {
@@ -40,6 +40,9 @@ import CoreBluetooth
     }
     
     public func uploadProgressDidChange(bytesSent: Int, imageSize: Int, timestamp: Date) {
+        
+        myCallback.resolve(["status": "uploadProgressChanged", "data" : ["bytesSent" : bytesSent, "imageSize" : imageSize ]])
+        
         print("uploadProgressDidChange: " + String(bytesSent) + " / " + String(imageSize))
     }
         
@@ -131,6 +134,9 @@ import CoreBluetooth
         fileURL = call.getString("fileURL") ?? ""
         deviceID = call.getString("deviceIdentifier") ?? ""
         manager = CBCentralManager(delegate: self, queue: nil)
+        myCallback = call;
+        myCallback.resolve(["status": "started"])
+        
         return deviceID + " // " + fileURL;
     }
     
