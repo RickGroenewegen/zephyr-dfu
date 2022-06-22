@@ -1,5 +1,9 @@
 package nl.rickgroenewegen.testplugin;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
@@ -20,22 +24,34 @@ public class ZephyrDfuPlugin extends Plugin {
         call.resolve(ret);
     }
 
-    @PluginMethod
+	@RequiresApi(api = Build.VERSION_CODES.M)
+	@PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
     public void updateFirmware(PluginCall call) {
         String fileURL = call.getString("fileURL");
         String deviceIdentifier = call.getString("deviceIdentifier");
 
-       	System.out.println("ZEPHYR TEST");
+        call.setKeepAlive(true);
 
-       	String result =  implementation.updateFirmware(fileURL,deviceIdentifier,this.getActivity().getApplicationContext());
+       	System.out.println("BLE// ZEPHYR TEST");
 
-		JSObject ret = new JSObject();
-		ret.put("value", result);
-
-		System.out.println("ZEPHYR TEST DONE");
-
-        // More logic
-        call.resolve(ret);
+       	implementation.updateFirmware(fileURL,deviceIdentifier,this.getActivity().getApplicationContext(),new FirmwareUpdateCallback() {
+			@Override
+			public void success(String msg, JSObject data) {
+				JSObject ret = new JSObject();
+				ret.put("status", msg);
+				if(data != null) {
+					ret.put("data", data);
+				}
+				//ret.put("data2", data2);
+				call.resolve(ret);
+			}
+			@Override
+			public void error(String msg) {
+				JSObject ret = new JSObject();
+				ret.put("status", msg);
+				call.resolve(ret);
+			}
+		});
     }
 
 }

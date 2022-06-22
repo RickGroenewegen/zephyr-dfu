@@ -18,7 +18,13 @@ import android.bluetooth.*;
 import android.util.Pair;
 
 import androidx.annotation.RequiresApi;
+
+import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
+import com.getcapacitor.PluginCall;
+
+import org.json.JSONException;
+
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,6 +40,7 @@ public class ZephyrDfu extends Plugin implements FirmwareUpgradeCallback {
 	private String myFileURL = "";
 	private BluetoothDevice device = null;
 	private Context myContext = null;
+	private FirmwareUpdateCallback myCallback = null;
 
 	private static final long SCAN_PERIOD = 5000;
 
@@ -45,6 +52,7 @@ public class ZephyrDfu extends Plugin implements FirmwareUpgradeCallback {
 	@Override
 	public void onUpgradeStarted(final FirmwareUpgradeController controller) {
 		System.out.println("BLE// onUpgradeStarted");
+		myCallback.success("upgradeStarted",null);
 	}
 
 	@Override
@@ -53,40 +61,41 @@ public class ZephyrDfu extends Plugin implements FirmwareUpgradeCallback {
 		final FirmwareUpgradeManager.State newState)
 	{
 		System.out.println("BLE// onStateChanged. Old = " + prevState + " / New = " + newState);
+		myCallback.success("stateChanged",new JSObject().put("prevState", prevState).put("newState", newState));
 	}
 
 	@Override
 	public void onUpgradeCompleted() {
 		System.out.println("BLE// onUpgradeCompleted");
+		myCallback.success("upgradeCompleted",null);
 	}
 
 	@Override
 	public void onUpgradeCanceled(final FirmwareUpgradeManager.State state) {
 		System.out.println("BLE// onUpgradeCanceled");
+		myCallback.success("upgradeCanceled",null);
 	}
 
 	@Override
 	public void onUpgradeFailed(final FirmwareUpgradeManager.State state, final McuMgrException error) {
-		System.out.println("BLE// onUpgradeFailed");
+		System.out.println("BLE// onUpgradeFailed" + error.toString());
+		myCallback.success("upgradeFailed",null);
 	}
 
 	@Override
 	public void onUploadProgressChanged(final int bytesSent, final int imageSize, final long timestamp) {
 		System.out.println("BLE// onUploadProgressChanged: " + bytesSent + " / " + imageSize);
+		myCallback.success("uploadProgressChanged", new JSObject().put("bytesSent", bytesSent).put("imageSize", imageSize));
 	}
 
 	/* Scan result for SDK >= 21 */
 	private ScanCallback mScanCallback = new ScanCallback() {
-
 		@Override
 		public void onScanResult(int callbackType, ScanResult result) {
-
 			super.onScanResult(callbackType, result);
-
 			try {
-
 				if(result.getDevice().getAddress().equals(myDeviceIdentifier)) {
-
+					myCallback.success("deviceFound",null);
 					System.out.println("BLE// result" + result.toString());
 					System.out.println("BLE// Device Name: " + result.getDevice().getName());
 					System.out.println("BLE// Device address: " + result.getDevice().getAddress());
@@ -123,6 +132,7 @@ public class ZephyrDfu extends Plugin implements FirmwareUpgradeCallback {
 
 	void doUpdateFirmware(BluetoothDevice device) throws IOException {
 		System.out.println("BLE// Do update: " + device.getAddress());
+
 		McuMgrTransport transport = new McuMgrBleTransport(myContext, device);
 
 		// Initialize the Firmware Upgrade Manager.
@@ -165,7 +175,9 @@ public class ZephyrDfu extends Plugin implements FirmwareUpgradeCallback {
 	}
 
 	@RequiresApi(api = Build.VERSION_CODES.M)
-	public String updateFirmware(String fileURL, String deviceIdentifier, Context context) {
+	public String updateFirmware(String fileURL, String deviceIdentifier, Context context, FirmwareUpdateCallback callback) {
+		myCallback = callback;
+		myCallback.success("starting",null);
 		String value = deviceIdentifier + " / " + fileURL;
 		myContext = context;
 		myDeviceIdentifier = deviceIdentifier;
