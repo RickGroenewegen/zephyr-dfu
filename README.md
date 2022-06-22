@@ -15,6 +15,8 @@ npm install zephyr-dfu
 npx cap sync
 ```
 
+Any questions? Mail me at: info@rickgroenewegen.nl
+
 ## API
 
 <docgen-index>

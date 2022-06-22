@@ -56,20 +56,7 @@ import CoreBluetooth
         dfuManager.mode = FirmwareUpgradeMode.testAndConfirm
         do {
             print("ZEPHYR-DFU - Using file URL: " + fileURL);
-            print("ZEPHYR-DFU - Try to unzip BIN. Source: " + fileURL);
-            let url = NSURL(fileURLWithPath: fileURL);
-            let destinationURL = url.deletingLastPathComponent!
-            print("ZEPHYR-DFU - Try to unzip BIN. Destination: " + destinationURL.absoluteString);
-            do {
-                let fileManager = FileManager()
-                let sourceURL = URL(fileURLWithPath: fileURL)
-                try fileManager.unzipItem(at: sourceURL, to: destinationURL)
-            } catch {
-                print("ZEPHYR-DFU - Extraction of ZIP archive failed with error:\(error)")
-            }
-            let binPath = destinationURL.absoluteString + "app_update.bin";
-            print("ZEPHYR-DFU - Starting update: " + binPath);
-            let package = try McuMgrPackage(from: URL(string: (binPath))!)
+            let package = try McuMgrPackage(from: URL(string: ("file://" + fileURL))!)
             try dfuManager.start(images: package.images, using: dfuManagerConfiguration)
         } catch {
             print("ZEPHYR-DFU - Error creating package: \(error)")
