@@ -4,7 +4,8 @@ This Capacitor plugin provides an implementation of the McuManager protocol supp
 
 It is based on the following libraries:
 
-Android: https://github.com/NordicSemiconductor/Android-nRF-Connect-Device-Manager/
+Android: https://github.com/NordicSemiconductor/Android-nRF-Connect-Device-Manager
+
 iOS: https://github.com/NordicSemiconductor/IOS-nRF-Connect-Device-Manager
 
 ## Install
