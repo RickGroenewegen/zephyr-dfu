@@ -87,11 +87,6 @@ import CoreBluetooth
       }
     }
     
-    @objc public func echo(_ value: String) -> String {
-        print(value)
-        return value
-    }
-    
     func startScanning() -> Void {
         print("ZEPHYR-DFU - Starting to scan ...")
         manager.scanForPeripherals(withServices: [])

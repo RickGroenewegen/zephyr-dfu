@@ -21,7 +21,6 @@ Any questions? Mail me at: info@rickgroenewegen.nl
 
 <docgen-index>
 
-* [`echo(...)`](#echo)
 * [`updateFirmware(...)`](#updatefirmware)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
@@ -30,21 +29,6 @@ Any questions? Mail me at: info@rickgroenewegen.nl
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
-
-### echo(...)
-
-```typescript
-echo(options: { value: string; }) => Promise<{ value: string; }>
-```
-
-| Param         | Type                            |
-| ------------- | ------------------------------- |
-| **`options`** | <code>{ value: string; }</code> |
-
-**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
-
---------------------
-
 
 ### updateFirmware(...)
 

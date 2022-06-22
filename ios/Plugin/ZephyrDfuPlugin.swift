@@ -9,22 +9,9 @@ import Capacitor
 public class ZephyrDfuPlugin: CAPPlugin {
     private let implementation = ZephyrDfu()
 
-    @objc func echo(_ call: CAPPluginCall) {
-        let value = call.getString("value") ?? ""
-        call.resolve([
-            "value": implementation.echo(value)
-        ])
-    }
-
     @objc func updateFirmware(_ call: CAPPluginCall) {
-        call.keepAlive = true
-        
-        implementation.updateFirmware(call)
-        
-       
-//        call.resolve([
-//            "state": implementation.updateFirmware(call)
-//        ])
+        call.keepAlive = true        
+        implementation.updateFirmware(call)        
     }
 }
 
