@@ -5,9 +5,9 @@ def capacitor_pods
   use_frameworks!
   pod 'Capacitor', :path => '../node_modules/@capacitor/ios'
   pod 'CapacitorCordova', :path => '../node_modules/@capacitor/ios'
-  pod 'iOSMcuManagerLibrary', '1.1.0'
+  # pod 'iOSMcuManagerLibrary', '1.1.0'
   # pod 'iOSMcuManagerLibrary', '1.2.0'
-  # pod 'iOSMcuManagerLibrary', :git => 'https://github.com/NordicSemiconductor/IOS-nRF-Connect-Device-Manager.git', :branch => 'master'
+  pod 'iOSMcuManagerLibrary', :git => 'https://github.com/NordicSemiconductor/IOS-nRF-Connect-Device-Manager.git', :branch => 'master'
   pod 'ZIPFoundation', '~> 0.9'
 end
 

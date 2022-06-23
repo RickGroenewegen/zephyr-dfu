@@ -1,6 +1,6 @@
 {
   "name": "zephyr-dfu",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "The Capacitor plugin provides an implementation of the McuManager protocol supported by Zephyr.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
