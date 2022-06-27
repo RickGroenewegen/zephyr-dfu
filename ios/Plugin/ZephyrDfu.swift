@@ -5,9 +5,10 @@ import CoreBluetooth
 
 @objc public class ZephyrDfu: UIViewController, CBPeripheralDelegate, CBCentralManagerDelegate, FirmwareUpgradeDelegate {
     
-    let serviceID = "AFB2040C-9519-4453-9079-BED75069BA91"
     private var dfuManagerConfiguration = FirmwareUpgradeConfiguration(
-        eraseAppSettings: false, pipelineDepth: 4, byteAlignment: .fourByte)
+        eraseAppSettings: false, 
+        pipelineDepth: 4, 
+        byteAlignment: .fourByte)
     
     var remotePeripheral: [CBPeripheral] = []
     
@@ -51,7 +52,6 @@ import CoreBluetooth
     // In CBCentralManagerDelegate class/extension
     public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         // Successfully connected. Store reference to peripheral if not already done.
-        //self.connectedPeripheral = peripheral
         print("ZEPHYR-DFU - Connected to device")
         let bleTransport = McuMgrBleTransport(peripheral)
         // Initialize the FirmwareUpgradeManager using the transport and a delegate

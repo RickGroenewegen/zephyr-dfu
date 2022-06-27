@@ -86,7 +86,6 @@ public class ZephyrDfu extends Plugin implements FirmwareUpgradeCallback {
 			super.onScanResult(callbackType, result);
 			try {
 				if(result.getDevice().getAddress().equals(myDeviceIdentifier)) {
-					myCallback.success("deviceFound",null);
 					Log.i("ZEPHYR-DFU","Device Name: " + result.getDevice().getName() + "(" + result.getDevice().getAddress() + ")");
 					device = result.getDevice();
 					mLEScanner.stopScan(mScanCallback);
@@ -163,7 +162,7 @@ public class ZephyrDfu extends Plugin implements FirmwareUpgradeCallback {
 	@RequiresApi(api = Build.VERSION_CODES.M)
 	public String updateFirmware(String fileURL, String deviceIdentifier, Context context, FirmwareUpdateCallback callback) {
 		myCallback = callback;
-		myCallback.success("starting",null);
+		myCallback.success("started",null);
 		String value = deviceIdentifier + " / " + fileURL;
 		myContext = context;
 		myDeviceIdentifier = deviceIdentifier;
