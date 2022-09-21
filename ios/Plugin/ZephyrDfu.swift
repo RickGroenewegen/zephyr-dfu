@@ -6,6 +6,7 @@ import CoreBluetooth
 @objc public class ZephyrDfu: UIViewController, CBPeripheralDelegate, CBCentralManagerDelegate, FirmwareUpgradeDelegate {
     
     private var dfuManagerConfiguration = FirmwareUpgradeConfiguration(
+        estimatedSwapTime: 20,
         eraseAppSettings: false, 
         pipelineDepth: 4, 
         byteAlignment: .fourByte)
