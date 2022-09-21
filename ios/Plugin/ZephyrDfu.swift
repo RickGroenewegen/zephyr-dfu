@@ -7,7 +7,7 @@ import CoreBluetooth
     
     private var dfuManagerConfiguration = FirmwareUpgradeConfiguration(
         estimatedSwapTime: 20,
-        eraseAppSettings: true, 
+        eraseAppSettings: false, 
         pipelineDepth: 4, 
         byteAlignment: .fourByte)
     
