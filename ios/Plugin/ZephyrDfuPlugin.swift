@@ -13,6 +13,10 @@ public class ZephyrDfuPlugin: CAPPlugin {
         call.keepAlive = true        
         implementation.updateFirmware(call)        
     }
+
+    @objc func getVersion(_ call: CAPPluginCall) {
+        implementation.getVersion(call)        
+    }
 }
 
 

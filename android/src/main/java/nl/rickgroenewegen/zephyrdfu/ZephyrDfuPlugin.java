@@ -43,4 +43,32 @@ public class ZephyrDfuPlugin extends Plugin {
 		});
     }
 
+	@RequiresApi(api = Build.VERSION_CODES.M)
+	@PluginMethod()
+	public void getVersion(PluginCall call) {
+
+		Log.i("ZEPHYR-DFU","getVersion 1");
+
+		String deviceIdentifier = call.getString("deviceIdentifier");
+		call.setKeepAlive(true);
+
+		Log.i("ZEPHYR-DFU","getVersion 2");
+
+		implementation.getVersion(deviceIdentifier,this.getActivity().getApplicationContext(),new FirmwareUpdateCallback() {
+			@Override
+			public void success(String msg, JSObject data) {
+				Log.i("ZEPHYR-DFU","getVersion 3: " + msg);
+				JSObject ret = new JSObject();
+				ret.put("value", msg);
+				call.resolve(ret);
+			}
+			@Override
+			public void error(String msg) {
+				JSObject ret = new JSObject();
+				ret.put("status", msg);
+				call.resolve(ret);
+			}
+		});
+	}
+
 }

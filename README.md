@@ -22,6 +22,7 @@ Any questions? Mail me at: info@rickgroenewegen.nl
 <docgen-index>
 
 * [`updateFirmware(...)`](#updatefirmware)
+* [`getVersion()`](#getversion)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
 
@@ -42,6 +43,17 @@ updateFirmware(options: { fileURL: string; deviceIdentifier: string; }, callback
 | **`callback`** | <code><a href="#firmwareupdatecallback">firmwareUpdateCallback</a></code> |
 
 **Returns:** <code>Promise&lt;string&gt;</code>
+
+--------------------
+
+
+### getVersion()
+
+```typescript
+getVersion() => Promise<{ images: any[]; }>
+```
+
+**Returns:** <code>Promise&lt;{ images: any[]; }&gt;</code>
 
 --------------------
 

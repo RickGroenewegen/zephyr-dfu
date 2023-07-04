@@ -11,14 +11,21 @@ import io.runtime.mcumgr.ble.*;
 import io.runtime.mcumgr.dfu.FirmwareUpgradeCallback;
 import io.runtime.mcumgr.dfu.FirmwareUpgradeController;
 import io.runtime.mcumgr.dfu.FirmwareUpgradeManager;
+import io.runtime.mcumgr.managers.ImageManager;
 import io.runtime.mcumgr.exception.McuMgrException;
+import io.runtime.mcumgr.response.img.McuMgrImageStateResponse;
 import io.runtime.mcumgr.sample.utils.ZipPackage;
 import android.content.Context;
 import android.bluetooth.*;
 import android.util.Pair;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -35,6 +42,8 @@ public class ZephyrDfu extends Plugin implements FirmwareUpgradeCallback {
 	private BluetoothDevice device = null;
 	private Context myContext = null;
 	private FirmwareUpdateCallback myCallback = null;
+	private String mode = "update";
+	private McuMgrBleTransport myTransport = null;
 
 	private static final long SCAN_PERIOD = 5000;
 
@@ -58,18 +67,21 @@ public class ZephyrDfu extends Plugin implements FirmwareUpgradeCallback {
 	@Override
 	public void onUpgradeCompleted() {
 		Log.i("ZEPHYR-DFU","onUpgradeCompleted");
+		myTransport.release();
 		myCallback.success("upgradeCompleted",null);
 	}
 
 	@Override
 	public void onUpgradeCanceled(final FirmwareUpgradeManager.State state) {
 		Log.i("ZEPHYR-DFU","onUpgradeCanceled");
+		myTransport.release();
 		myCallback.success("upgradeCanceled",null);
 	}
 
 	@Override
 	public void onUpgradeFailed(final FirmwareUpgradeManager.State state, final McuMgrException error) {
 		Log.i("ZEPHYR-DFU","onUpgradeFailed");
+		myTransport.release();
 		myCallback.success("upgradeFailed",null);
 	}
 
@@ -89,10 +101,15 @@ public class ZephyrDfu extends Plugin implements FirmwareUpgradeCallback {
 					Log.i("ZEPHYR-DFU","Device Name: " + result.getDevice().getName() + "(" + result.getDevice().getAddress() + ")");
 					device = result.getDevice();
 					mLEScanner.stopScan(mScanCallback);
-					doUpdateFirmware(device);
+					Log.i("ZEPHYR-DFU","scanning mode: " + mode);
+					if(mode == "update") {
+						doUpdateFirmware(device);
+					} else if (mode == "version") {
+						doVersion(device);
+					}
 				}
 			} catch(Exception e) {
-				Log.i("ZEPHYR-DFU","callbackTypeError");
+				Log.i("ZEPHYR-DFU","callbackTypeError: " + e.getLocalizedMessage());
 			}
 		}
 
@@ -118,10 +135,10 @@ public class ZephyrDfu extends Plugin implements FirmwareUpgradeCallback {
 
 	void doUpdateFirmware(BluetoothDevice device) throws IOException {
 		Log.i("ZEPHYR-DFU","Do update: " + device.getAddress());
-		McuMgrTransport transport = new McuMgrBleTransport(myContext, device);
+		myTransport = new McuMgrBleTransport(myContext, device);
 
 		// Initialize the Firmware Upgrade Manager.
-		FirmwareUpgradeManager dfuManager = new FirmwareUpgradeManager(transport,this);
+		FirmwareUpgradeManager dfuManager = new FirmwareUpgradeManager(myTransport,this);
 
 		dfuManager.setEstimatedSwapTime(20000);
 		dfuManager.setWindowUploadCapacity(4);
@@ -137,6 +154,30 @@ public class ZephyrDfu extends Plugin implements FirmwareUpgradeCallback {
 		}
 
 		Log.i("ZEPHYR-DFU","Update done: " + device.getAddress());
+	}
+
+	void doVersion(BluetoothDevice device) throws IOException {
+		Log.i("ZEPHYR-DFU","Do version 1: " + device.getAddress());
+		McuMgrTransport transport = new McuMgrBleTransport(myContext, device);
+
+		ImageManager manager = new ImageManager(transport);
+
+		manager.list(new McuMgrCallback<>() {
+			@Override
+			public void onError(@NotNull McuMgrException error) {
+
+			}
+
+			@Override
+			public void onResponse(@NonNull final McuMgrImageStateResponse response) {
+				if (response.images != null) {
+					Log.i("ZEPHYR-DFU","Do version RESPONSE 1: " + response.images[0].version);
+					transport.release();
+					myCallback.success(response.images[0].version,null);
+				}
+			}
+		});
+
 	}
 
 	@RequiresApi(api = Build.VERSION_CODES.M)
@@ -161,6 +202,7 @@ public class ZephyrDfu extends Plugin implements FirmwareUpgradeCallback {
 
 	@RequiresApi(api = Build.VERSION_CODES.M)
 	public String updateFirmware(String fileURL, String deviceIdentifier, Context context, FirmwareUpdateCallback callback) {
+		mode = "update";
 		myCallback = callback;
 		myCallback.success("started",null);
 		String value = deviceIdentifier + " / " + fileURL;
@@ -169,5 +211,19 @@ public class ZephyrDfu extends Plugin implements FirmwareUpgradeCallback {
 		myFileURL = fileURL;
 		startScanning();
 		return value;
+	}
+
+	@RequiresApi(api = Build.VERSION_CODES.M)
+	public String getVersion(String deviceIdentifier, Context context, FirmwareUpdateCallback callback) {
+		mode = "version";
+		Log.i("ZEPHYR-DFU","getVersion 1");
+		myCallback = callback;
+
+		myContext = context;
+		myDeviceIdentifier = deviceIdentifier;
+		startScanning();
+
+		//myCallback.success("0.0.21",null);
+		return "";
 	}
 }

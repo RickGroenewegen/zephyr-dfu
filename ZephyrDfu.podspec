@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.source_files = 'ios/Plugin/**/*.{swift,h,m,c,cc,mm,cpp}'
   s.ios.deployment_target  = '12.0'
   s.dependency 'Capacitor'
-  s.dependency 'iOSMcuManagerLibrary', '1.2.6'
+  s.dependency 'iOSMcuManagerLibrary', '1.3.1'
   # s.dependency 'iOSMcuManagerLibrary'
   s.dependency 'ZIPFoundation'
   s.swift_version = '5.1'

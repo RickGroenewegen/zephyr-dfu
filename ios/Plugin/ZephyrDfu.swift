@@ -18,6 +18,7 @@ import CoreBluetooth
     var fileURL = "";
     var URLData:Data!
     var myCallback: CAPPluginCall!;
+    var mode = "upgrade";
     
     public func upgradeDidStart(controller: FirmwareUpgradeController) {
         print("ZEPHYR-DFU - upgradeStarted")
@@ -58,12 +59,28 @@ import CoreBluetooth
         // Initialize the FirmwareUpgradeManager using the transport and a delegate
         let dfuManager = FirmwareUpgradeManager(transporter: bleTransport,delegate: self)
         dfuManager.mode = FirmwareUpgradeMode.testAndConfirm
-        do {
-            print("ZEPHYR-DFU - Using file URL: " + fileURL);
-            let package = try McuMgrPackage(from: URL(string: ("file://" + fileURL))!)
-            try dfuManager.start(images: package.images, using: dfuManagerConfiguration)
-        } catch {
-            print("ZEPHYR-DFU - Error creating package: \(error)")
+        
+        if(mode == "upgrade") {
+            do {
+                print("ZEPHYR-DFU - Using file URL: " + fileURL);
+                let package = try McuMgrPackage(from: URL(string: ("file://" + fileURL))!)
+                try dfuManager.start(images: package.images, using: dfuManagerConfiguration)
+            } catch {
+                print("ZEPHYR-DFU - Error creating package: \(error)")
+            }
+        } else if (mode == "list") {
+            print("ZEPHYR-DFU - Getting image list");
+            let images = ImageManager(transporter: bleTransport).list { response, error in
+                if let response = response {
+                    if response.isSuccess(), let images = response.images {
+                        print("ZEPHYR-DFU - VERSION DETECTED: " + images[0].version);
+                        self.myCallback.resolve([
+                            "value": images[0].version
+                        ]);
+                    }
+                }
+            }
+            
         }
     }
     
@@ -94,12 +111,36 @@ import CoreBluetooth
     }
     
     @objc public func updateFirmware(_ call: CAPPluginCall) -> String {
+        mode = "upgrade";
         fileURL = call.getString("fileURL") ?? ""
         deviceID = call.getString("deviceIdentifier") ?? ""
         manager = CBCentralManager(delegate: self, queue: nil)
         myCallback = call;
         myCallback.resolve(["status": "started"])
         return deviceID + " // " + fileURL;
+    }
+    
+    @objc public func getVersion(_ call: CAPPluginCall) -> String {
+        
+        mode = "list";
+        
+        print("ZEPHYR-DFU - getVersion 1")
+        
+        deviceID = call.getString("deviceIdentifier") ?? ""
+        
+        print("ZEPHYR-DFU - getVersion 2 - " + deviceID)
+        
+        manager = CBCentralManager(delegate: self, queue: nil)
+        
+        myCallback = call;
+        
+        //ImageManager imageManager = new ImageManager(transport);
+        //list = ImageManager.list();
+
+        print("ZEPHYR-DFU - getVersion 2 - " + deviceID)
+        
+        
+        return "";
     }
     
     func doUpdateOnPeripheral(_ peripheral: CBPeripheral) {
@@ -109,9 +150,9 @@ import CoreBluetooth
     }
     
     public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral,advertisementData: [String : Any], rssi RSSI: NSNumber) {
-            if(peripheral.identifier.uuidString == deviceID) {
-                manager.stopScan()
-                doUpdateOnPeripheral(peripheral);
-            }
+        if(peripheral.identifier.uuidString == deviceID) {
+            manager.stopScan()
+            doUpdateOnPeripheral(peripheral);
+        }
     }
 }
