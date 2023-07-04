@@ -5,7 +5,7 @@ export interface ZephyrDfuPlugin {
 		options: { fileURL: string, deviceIdentifier: string },
 		callback: firmwareUpdateCallback
 	): Promise<CallbackID>;
-	getVersion(): Promise<string>;
+	getVersion(options: { deviceIdentifier: string }): Promise<string>;
 }
 
 export type firmwareUpdateCallback = (
