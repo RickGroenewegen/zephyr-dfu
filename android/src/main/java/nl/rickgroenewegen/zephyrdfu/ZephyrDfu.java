@@ -10,7 +10,8 @@ import io.runtime.mcumgr.*;
 import io.runtime.mcumgr.ble.*;
 import io.runtime.mcumgr.dfu.FirmwareUpgradeCallback;
 import io.runtime.mcumgr.dfu.FirmwareUpgradeController;
-import io.runtime.mcumgr.dfu.FirmwareUpgradeManager;
+import io.runtime.mcumgr.dfu.mcuboot.FirmwareUpgradeManager;
+import io.runtime.mcumgr.dfu.mcuboot.model.ImageSet;
 import io.runtime.mcumgr.managers.ImageManager;
 import io.runtime.mcumgr.exception.McuMgrException;
 import io.runtime.mcumgr.response.img.McuMgrImageStateResponse;
@@ -32,7 +33,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
-public class ZephyrDfu extends Plugin implements FirmwareUpgradeCallback {
+public class ZephyrDfu extends Plugin implements FirmwareUpgradeCallback<FirmwareUpgradeManager.State> {
 
 	private BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
 	private BluetoothLeScanner mLEScanner = null;
@@ -137,18 +138,20 @@ public class ZephyrDfu extends Plugin implements FirmwareUpgradeCallback {
 		Log.i("ZEPHYR-DFU","Do update: " + device.getAddress());
 		myTransport = new McuMgrBleTransport(myContext, device);
 
-		// Initialize the Firmware Upgrade Manager.
-		FirmwareUpgradeManager dfuManager = new FirmwareUpgradeManager(myTransport,this);
-
-		dfuManager.setEstimatedSwapTime(20000);
-		dfuManager.setWindowUploadCapacity(4);
+		FirmwareUpgradeManager dfuManager = new FirmwareUpgradeManager(myTransport, this);
 		dfuManager.setMode(FirmwareUpgradeManager.Mode.TEST_AND_CONFIRM);
 
+		FirmwareUpgradeManager.Settings settings = new FirmwareUpgradeManager.Settings.Builder()
+				.setEstimatedSwapTime(20000)
+				.setWindowCapacity(4)
+				.build();
+
 		final ZipPackage zip = new ZipPackage(readFile());
-		List<Pair<Integer, byte[]>> images = zip.getBinaries();
+		List<Pair<Integer, byte[]>> binaries = zip.getBinaries();
 
 		try {
-			dfuManager.start(images, false);
+			ImageSet imageSet = new ImageSet().add(binaries);
+			dfuManager.start(imageSet, settings);
 		} catch (McuMgrException e) {
 			e.printStackTrace();
 		}

@@ -7,9 +7,10 @@ import CoreBluetooth
     
     private var dfuManagerConfiguration = FirmwareUpgradeConfiguration(
         estimatedSwapTime: 20,
-        eraseAppSettings: false, 
-        pipelineDepth: 4, 
-        byteAlignment: .fourByte)
+        eraseAppSettings: false,
+        pipelineDepth: 4,
+        byteAlignment: .fourByte,
+        upgradeMode: .testAndConfirm)
     
     var remotePeripheral: [CBPeripheral] = []
     
@@ -57,9 +58,8 @@ import CoreBluetooth
         print("ZEPHYR-DFU - Connected to device")
         let bleTransport = McuMgrBleTransport(peripheral)
         // Initialize the FirmwareUpgradeManager using the transport and a delegate
-        let dfuManager = FirmwareUpgradeManager(transporter: bleTransport,delegate: self)
-        dfuManager.mode = FirmwareUpgradeMode.testAndConfirm
-        
+        let dfuManager = FirmwareUpgradeManager(transport: bleTransport, delegate: self)
+
         if(mode == "upgrade") {
             do {
                 print("ZEPHYR-DFU - Using file URL: " + fileURL);
@@ -70,12 +70,12 @@ import CoreBluetooth
             }
         } else if (mode == "list") {
             print("ZEPHYR-DFU - Getting image list");
-            let images = ImageManager(transporter: bleTransport).list { response, error in
+            let _ = ImageManager(transport: bleTransport).list { response, error in
                 if let response = response {
-                    if response.isSuccess(), let images = response.images {
-                        print("ZEPHYR-DFU - VERSION DETECTED: " + images[0].version);
+                    if error == nil, let images = response.images, let version = images[0].version {
+                        print("ZEPHYR-DFU - VERSION DETECTED: " + version);
                         self.myCallback.resolve([
-                            "value": images[0].version
+                            "value": version
                         ]);
                     }
                 }

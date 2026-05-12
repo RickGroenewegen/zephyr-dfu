@@ -1,21 +1,25 @@
 import Foundation
 import Capacitor
 
-/**
- * Please read the Capacitor iOS Plugin Development Guide
- * here: https://capacitorjs.com/docs/plugins/ios
- */
 @objc(ZephyrDfuPlugin)
-public class ZephyrDfuPlugin: CAPPlugin {
+public class ZephyrDfuPlugin: CAPPlugin, CAPBridgedPlugin {
+
+    public let identifier = "ZephyrDfuPlugin"
+    public let jsName = "ZephyrDfu"
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "updateFirmware", returnType: CAPPluginReturnCallback),
+        CAPPluginMethod(name: "getVersion", returnType: CAPPluginReturnPromise)
+    ]
+
     private let implementation = ZephyrDfu()
 
     @objc func updateFirmware(_ call: CAPPluginCall) {
-        call.keepAlive = true        
-        implementation.updateFirmware(call)        
+        call.keepAlive = true
+        implementation.updateFirmware(call)
     }
 
     @objc func getVersion(_ call: CAPPluginCall) {
-        implementation.getVersion(call)        
+        implementation.getVersion(call)
     }
 }
 
